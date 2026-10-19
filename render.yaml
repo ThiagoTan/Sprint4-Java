@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: treen-challenge-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/usuarios
+    envVars:
+      - key: CORS_ALLOWED_ORIGINS
+        value: http://localhost:5173
+      - key: DDL_AUTO
+        value: update
