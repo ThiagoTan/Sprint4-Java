@@ -1,81 +1,160 @@
-# Treen Challenge — API REST Java (Sprint 4)
+#  TreenUp — Transformando Sustentabilidade em Jornada
 
-API REST para o Treen Challenge. Preserva a ideia da Sprint 3: ações sustentáveis geram pontos, XP e TreenTokens. Evolução para Spring Boot e endpoints REST.
+##  Sobre o Projeto
 
-## Tecnologias
-Java 21, Spring Boot 3.5, Spring Web, Spring Data JPA (**Repository, não DAO**), Bean Validation, H2 local, PostgreSQL para deploy e Docker.
+O **TreenUp** é uma aplicação web voltada à sustentabilidade, com o objetivo de incentivar práticas sustentáveis por meio do registro de ações e do acompanhamento de recompensas.
 
-## Estrutura
-- `src/main/java/br/com/treenchallenge/model`: `Usuario` e `AcaoSustentavel`
-- `repository`: interfaces Spring Data JPA
-- `service`: regras de negócio (BO)
-- `controller`: recursos/endpoints REST
-- `config/CorsConfig.java`: CORS por variável de ambiente
-- `src/legacy-java`: fontes originais da Sprint 3 preservadas como referência; não são compiladas pelo Spring
-- `Dockerfile`: build e execução no Render
+O sistema permite visualizar usuários, consultar ações sustentáveis e registrar novas atividades. A aplicação integra um Front-End desenvolvido em React com uma API REST desenvolvida em Java, responsável pelo processamento e armazenamento dos dados.
 
-## Executar localmente
-Requer JDK 21. No PowerShell: `mvnw.cmd spring-boot:run`. No Linux/macOS: `./mvnw spring-boot:run`. API: `http://localhost:8080`. H2 Console: `http://localhost:8080/h2-console`, JDBC URL `jdbc:h2:mem:treendb`, usuário `sa`, senha vazia.
+##  Links do Projeto
 
-## Endpoints
-| Método | URI | Resultado |
+- **Aplicação publicada (Vercel):** https://challenge-front-end-rust.vercel.app/
+- **Repositório Front-End (GitHub):** https://github.com/tenorio085/ChallengeFront_End
+- **API Java (Render):** https://sprint4-java-e7d9.onrender.com
+- **Repositório Back-End (GitHub):** https://github.com/ThiagoTan/Sprint4-Java
+
+##  Tecnologias Utilizadas
+
+### Front-End
+- React
+- Vite
+- TypeScript
+- Tailwind CSS
+- React Router DOM
+- JavaScript
+- HTML5 e CSS3
+- Git e GitHub
+- Vercel
+
+### Back-End
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- PostgreSQL
+- Maven
+- Render
+
+##  Integração com a API
+
+O Front-End consome os endpoints da API Java por meio de requisições HTTP, utilizando a função `fetch()`.
+
+| Método | Endpoint | Finalidade |
 |---|---|---|
-| GET | `/api/usuarios` | Lista usuários — 200 |
-| GET | `/api/usuarios/{id}` | Detalha usuário — 200/404 |
-| POST | `/api/usuarios` | Cria usuário — 201 |
-| PUT | `/api/usuarios/{id}` | Atualiza usuário — 200/400/404 |
-| DELETE | `/api/usuarios/{id}` | Exclui usuário — 204/404 |
-| GET | `/api/acoes` | Lista ações — 200 |
-| GET | `/api/acoes/{id}` | Detalha ação — 200/404 |
-| GET | `/api/acoes/usuario/{usuarioId}` | Ações de um usuário — 200/404 |
-| POST | `/api/acoes?usuarioId=1` | Registra ação — 201 |
-| PUT | `/api/acoes/{id}?usuarioId=1` | Atualiza ação — 200/400/404 |
-| DELETE | `/api/acoes/{id}` | Exclui ação — 204/404 |
+| GET | `/api/usuarios` | Listar usuários |
+| GET | `/api/usuarios/{id}` | Consultar usuário por ID |
+| POST | `/api/usuarios` | Cadastrar usuário |
+| PUT | `/api/usuarios/{id}` | Atualizar usuário |
+| GET | `/api/acoes` | Listar ações sustentáveis |
+| GET | `/api/acoes/{id}` | Consultar ação por ID |
+| POST | `/api/acoes?usuarioId={id}` | Registrar ação sustentável |
+| PUT | `/api/acoes/{id}?usuarioId={id}` | Atualizar ação sustentável |
+| DELETE | `/api/acoes/{id}` | Excluir ação sustentável |
 
-POST `/api/usuarios` exemplo: `{"nome":"Ana Silva","email":"ana@example.com","cidade":"São Paulo"}`
+**URL base da API:**
 
-POST `/api/acoes?usuarioId=1` exemplo: `{"descricao":"Reciclagem de papel","quantidade":5,"unidade":"kg","data":"2026-10-19","categoria":"RECICLAGEM"}`. Categorias aceitas: `ENERGIA` e `RECICLAGEM`; quantidade deve ser positiva. Pontos, XP e tokens são calculados pelo backend.
+`https://sprint4-java-e7d9.onrender.com`
 
-## Deploy no Render
-1. Publique a pasta em um repositório GitHub.
-2. Render → New → Web Service → conecte o repositório → runtime Docker.
-3. Para persistência, crie PostgreSQL no Render e configure `DB_URL=jdbc:postgresql://HOST:5432/DB`, `DB_USERNAME`, `DB_PASSWORD`, `DB_DRIVER=org.postgresql.Driver`, `DDL_AUTO=update` e `CORS_ALLOWED_ORIGINS=https://SEU-FRONTEND.vercel.app`.
-4. Após deploy, teste `https://SUA-API.onrender.com/api/usuarios`.
-Sem PostgreSQL, o perfil padrão usa H2 em memória e perde dados ao reiniciar.
+As chamadas à API estão centralizadas na camada de serviços do Front-End, com tipagem TypeScript para os dados recebidos e tratamento de carregamento, erros e respostas vazias.
 
-## Integração front-end
-Use `fetch` e concentre chamadas em um service TypeScript; Axios não é necessário. Configure `CORS_ALLOWED_ORIGINS` com a origem exata publicada na Vercel. O repositório do front-end não estava dentro do ZIP Java fornecido, então a integração visual ainda precisa ser conectada e validada.
+##  Funcionalidades
 
-## Checklist Sprint 4
-- [x] Código da Sprint 3 preservado como referência.
-- [x] Spring Boot e API REST.
-- [x] Model, Repository (sem DAO), Service/BO e Controller/Resource.
-- [x] CRUD de usuários e ações.
-- [x] Validação de entrada e tratamento global de erros.
-- [x] CORS configurável.
-- [x] Dockerfile alinhado ao tutorial Render/Java 21.
-- [x] README com endpoints e instruções.
-- [ ] Build/testes Maven executados com dependências disponíveis.
-- [ ] PostgreSQL real configurado no Render e persistência validada.
-- [ ] Repositório GitHub publicado e URL do deploy confirmada.
-- [ ] URL real da Vercel configurada em CORS.
-- [ ] Integração testada com o front-end real.
-- [ ] Prints reais de execução/deploy incluídos na documentação final.
+- Navegação entre as páginas da aplicação.
+- Consulta de usuários cadastrados.
+- Exibição de ações sustentáveis.
+- Visualização dos detalhes das ações.
+- Cadastro de novas ações sustentáveis.
+- Cálculo e apresentação de pontos, XP e tokens gerados.
+- Comunicação com a API Java publicada.
+- Interface com tema visual voltado à sustentabilidade.
+
+##  Estrutura do Projeto
+
+A estrutura principal está organizada em `src`, com componentes reutilizáveis, páginas e serviços de integração.
+
+```text
+challenge-front-end/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   ├── contexts/
+│   ├── data/
+│   ├── hooks/
+│   ├── pages/
+│   ├── services/
+│   │   └── api.ts
+│   ├── types/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── .gitignore
+├── index.html
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
+```
+
+##  Como Executar Localmente
+
+### Pré-requisitos
+
+- Node.js e npm instalados.
+- Git instalado.
+- Visual Studio Code ou editor equivalente.
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/tenorio085/ChallengeFront_End.git
+```
+
+### 2. Entrar na pasta
+
+```bash
+cd ChallengeFront_End
+```
+
+### 3. Instalar as dependências
+
+```bash
+npm install
+```
+
+### 4. Configurar a URL da API
+
+O arquivo `src/services/api.ts` utiliza a variável de ambiente `VITE_API_URL` e possui a URL publicada do Render como alternativa.
+
+Caso deseje configurar a variável, crie um arquivo `.env` na raiz:
+
+```env
+VITE_API_URL=https://sprint4-java-e7d9.onrender.com
+```
+
+### 5. Iniciar o Front-End
+
+```bash
+npm run dev
+```
+
+O Vite exibirá o endereço local da aplicação no terminal, normalmente `http://localhost:5173`.
+
+### 6. Gerar a versão de produção
+
+```bash
+npm run build
+```
+
+Os arquivos gerados ficam na pasta `dist`.
+
+##  Deploy
+
+O Front-End está publicado na Vercel e consome a API Java hospedada no Render.
+
+- Front-End: https://challenge-front-end-rust.vercel.app/
+- Back-End: https://sprint4-java-e7d9.onrender.com
 
 
-## Organização do código Java
-
-O projeto segue a estrutura padrão do Maven/Spring Boot:
-
-- `src/main/java/br/com/treenchallenge/`: código principal da API Spring Boot.
-- `config/`: configurações, incluindo CORS.
-- `controller/`: endpoints REST.
-- `model/`: entidades/modelos.
-- `repository/`: acesso aos dados.
-- `service/`: regras de negócio.
-- `exception/`: tratamento de exceções.
-- `legacy/`: classes da versão Java de console, mantidas separadas da API para evitar conflito com classes de mesmo nome, como `Usuario` e `AcaoSustentavel`.
-- `src/main/resources/`: configurações da aplicação.
-- `src/test/java/`: testes.
-
-As classes antigas foram movidas de `src/legacy-java/` para o pacote `br.com.treenchallenge.legacy`, com declaração de pacote adicionada. Isso coloca os arquivos Java dentro da raiz de código-fonte reconhecida pelo Maven/IntelliJ.
+Projeto acadêmico desenvolvido para o Challenge 2026 — Sprint 4.
