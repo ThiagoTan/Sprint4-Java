@@ -1,1 +1,9 @@
-package br.com.treenchallenge.repository; import br.com.treenchallenge.model.AcaoSustentavel; import org.springframework.data.jpa.repository.JpaRepository; import java.util.List; public interface AcaoSustentavelRepository extends JpaRepository<AcaoSustentavel,Long>{List<AcaoSustentavel> findByUsuarioId(Long usuarioId);}
+package br.com.treenchallenge.repository;
+
+import br.com.treenchallenge.model.AcaoSustentavel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface AcaoSustentavelRepository extends JpaRepository<AcaoSustentavel, Long> {
+    List<AcaoSustentavel> findByUsuarioId(Long usuarioId);
+}

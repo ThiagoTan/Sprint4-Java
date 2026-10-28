@@ -1,1 +1,10 @@
-package br.com.treenchallenge; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; @SpringBootApplication public class TreenChallengeApplication { public static void main(String[] args){SpringApplication.run(TreenChallengeApplication.class,args);} }
+package br.com.treenchallenge;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class TreenChallengeApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(TreenChallengeApplication.class, args);
+    }
+}

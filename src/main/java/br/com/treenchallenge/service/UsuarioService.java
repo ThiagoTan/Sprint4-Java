@@ -1,4 +1,41 @@
-package br.com.treenchallenge.service; import br.com.treenchallenge.model.Usuario; import br.com.treenchallenge.repository.UsuarioRepository; import br.com.treenchallenge.exception.RecursoNaoEncontradoException; import org.springframework.stereotype.Service; import java.util.*;
-@Service public class UsuarioService{private final UsuarioRepository repo;public UsuarioService(UsuarioRepository r){repo=r;}public List<Usuario> listar(){return repo.findAll();}public Usuario buscar(Long id){return repo.findById(id).orElseThrow(()->new RecursoNaoEncontradoException("Usuário "+id+" não encontrado."));}
-public Usuario criar(Usuario u){if(repo.existsByEmailIgnoreCase(u.getEmail()))throw new IllegalArgumentException("Já existe usuário com esse e-mail.");u.setId(null);u.setPontuacaoTotal(0);u.setXpTotal(0);u.setSaldoTokens(0);return repo.save(u);}
-public Usuario atualizar(Long id,Usuario d){Usuario a=buscar(id);repo.findAll().stream().filter(x->!x.getId().equals(id)&&x.getEmail().equalsIgnoreCase(d.getEmail())).findAny().ifPresent(x->{throw new IllegalArgumentException("Já existe usuário com esse e-mail.");});a.setNome(d.getNome());a.setEmail(d.getEmail());a.setCidade(d.getCidade());return repo.save(a);}public void excluir(Long id){repo.delete(buscar(id));}}
+package br.com.treenchallenge.service;
+
+import br.com.treenchallenge.model.Usuario;
+import br.com.treenchallenge.repository.UsuarioRepository;
+import br.com.treenchallenge.exception.RecursoNaoEncontradoException;
+import org.springframework.stereotype.Service;
+import java.util.*;
+@Service
+public class UsuarioService {
+    private final UsuarioRepository repo;
+    public UsuarioService(UsuarioRepository r) {
+        repo=r;
+    }
+    public List<Usuario> listar() {
+        return repo.findAll();
+    }
+    public Usuario buscar(Long id) {
+        return repo.findById(id).orElseThrow(()->new RecursoNaoEncontradoException("Usuário "+id+" não encontrado."));
+    }
+    public Usuario criar(Usuario u) {
+        if(repo.existsByEmailIgnoreCase(u.getEmail()))throw new IllegalArgumentException("Já existe usuário com esse e-mail.");
+        u.setId(null);
+        u.setPontuacaoTotal(0);
+        u.setXpTotal(0);
+        u.setSaldoTokens(0);
+        return repo.save(u);
+    }
+    public Usuario atualizar(Long id, Usuario d) {
+        Usuario a=buscar(id);
+        repo.findAll().stream().filter(x->!x.getId().equals(id)&&x.getEmail().equalsIgnoreCase(d.getEmail())).findAny().ifPresent(x-> {
+            throw new IllegalArgumentException("Já existe usuário com esse e-mail."); }
+        );
+        a.setNome(d.getNome());
+        a.setEmail(d.getEmail());
+        a.setCidade(d.getCidade());
+        return repo.save(a);
+    }
+    public void excluir(Long id) {
+        repo.delete(buscar(id));
+    }
+}

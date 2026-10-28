@@ -1,1 +1,14 @@
-package br.com.treenchallenge.config;import org.springframework.beans.factory.annotation.Value;import org.springframework.context.annotation.Configuration;import org.springframework.web.servlet.config.annotation.*;@Configuration public class CorsConfig implements WebMvcConfigurer{@Value("${app.cors.allowed-origins:http://localhost:5173}")private String origins;@Override public void addCorsMappings(CorsRegistry r){r.addMapping("/api/**").allowedOrigins(origins.split(",")).allowedMethods("GET","POST","PUT","PATCH","DELETE","OPTIONS").allowedHeaders("Origin","Content-Type","Accept","Authorization").maxAge(86400);}}
+package br.com.treenchallenge.config;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.*;
+@Configuration
+public class CorsConfig implements WebMvcConfigurer {
+@Value("${app.cors.allowed-origins:http://localhost:5173}")
+private String origins;
+@Override
+public void addCorsMappings(CorsRegistry r) {
+        r.addMapping("/api/**").allowedOrigins(origins.split(",")).allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS").allowedHeaders("Origin", "Content-Type", "Accept", "Authorization").maxAge(86400);
+    }
+}
